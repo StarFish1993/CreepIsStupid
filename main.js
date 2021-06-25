@@ -2,7 +2,7 @@ var f=Game.spawns['first'];
 f.spawnCreep([WORK,CARRY,MOVE],"famer1");
 var famerSize=0;
 var MAX_FAMER=5;
-var r=Game.rooms['E42N54'];
+const r = Game.spawns['first'].room;
 var s=r.find(FIND_SOURCES_ACTIVE);
 s=s[1].energy==0?s[0]:s[1];
 for(var i in Game.creeps) {
