@@ -1,5 +1,10 @@
 /**
  * worker的工作模式以room为单位，当前不考虑worker跨room工作问题，main只需要把需要处理的room给policy，policy自动判断该room中的worker应该去什么
+ * 
+ * 注意：
+ *  creep的工作状态在本模块维护，creep.memory.idle
+ *  资源占用状态在本模块维护 room.memory.sourcesStory
+ * 
  */
 import { WORKER } from "../spawnCreep/SpawnWorker"
 import * as WorkerCommon from "../common/WorkerCommon"
@@ -22,7 +27,15 @@ export function roomPolicy(room) {
 
     creeps.forEach(function (creep) {
         var common = creep.memory.work.common;
-        var target = Game.getObjectById(creep.memory.work.targetId);
+        var target=null;
+        if(!creep.memory.targetId){
+            target==Game.getObjectById(creep.memory.targetId);
+        }
+        if(common!=null){
+            commonPlicy[common](creep,target);
+        }else{
+            commonPlicy.gatherSource(creep,target);
+        }
     })
 }
 var commonPlicy = {
@@ -57,6 +70,9 @@ var commonPlicy = {
                 });
                 if (source !== undefined) {
                     gather(creep, target);
+                }else{
+                    creep.memory.idle=true;
+                    console.log("没事干了！！！！")
                 }
             }
 
@@ -87,6 +103,7 @@ function gather(creep, target, store) {
             store.work.push(creep.id);
         }
     }
+    creep.idle=false;
     return re;
 }
 /**
