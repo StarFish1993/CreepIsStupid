@@ -1,13 +1,12 @@
-var f=Game.spawns['first'];
+let f=Game.spawns['first'];
 f.spawnCreep([WORK,CARRY,MOVE],"famer1");
-var famerSize=0;
-var MAX_FAMER=5;
+let famerSize=0;
+const MAX_FAMER = 5;
 const r = Game.spawns['first'].room;
-var s=r.find(FIND_SOURCES_ACTIVE);
-s=s[1].energy==0?s[0]:s[1];
-for(var i in Game.creeps) {
-
-    var creep=Game.creeps[i];
+let s = r.find(FIND_SOURCES_ACTIVE);
+s=s[1].energy===0?s[0]:s[1];
+for(let i in Game.creeps) {
+    let creep=Game.creeps[i];
     if(creep.store.getUsedCapacity()===0){
         creep.memory.isWork=false;
     }
@@ -19,6 +18,7 @@ for(var i in Game.creeps) {
         creep.transfer(f,RESOURCE_ENERGY,f.store.getFreeCapacity());
     }else if(creep.store.getUsedCapacity!==0){
         creep.memory.isWork=true;
+
         if(creep.upgradeController(r.controller)===-9)
             creep.moveTo(r.controller);
     }
@@ -27,8 +27,8 @@ for(var i in Game.creeps) {
 
 if(famerSize<MAX_FAMER&&!f.spawning){
     
-    var name="famer0";
-    for(var i=0;Game.creeps[name];i++){
+    let name="famer0";
+    for(let i=0;Game.creeps[name];i++){
         name="famer"+i;
     }
     

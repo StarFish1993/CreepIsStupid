@@ -67,10 +67,14 @@ var commonPlicy = {
     },
 
     transport: function (creep, target) {
-
+        if (creep.transfer(target,RESOURCE_ENERGY)===ERR_NOT_IN_RANGE){
+            creep.moveTo(target)
+        }
     },
     upgradeController: function (creep, target) {
-
+        if (creep.transfer(target,RESOURCE_ENERGY)===ERR_NOT_IN_RANGE){
+            creep.moveTo(target)
+        }
     }
 }
 /**
@@ -101,7 +105,7 @@ function workAble(sourceStory) {
 /**
  * 
  * @param {Room} room 
- * @param {Function} clazz 
+ * @param {Function} clazz
  * @returns 
  */
 function getStructures(room, clazz) {
