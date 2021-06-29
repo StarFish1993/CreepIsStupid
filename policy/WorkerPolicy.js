@@ -2,8 +2,8 @@
  * worker的工作模式以room为单位，当前不考虑worker跨room工作问题，main只需要把需要处理的room给policy，policy自动判断该room中的worker应该去什么
  * 
  * 注意：
- *  creep的工作状态在本模块维护，creep.memory.idle
- *  资源占用状态在本模块维护 room.memory.sourcesStory
+ *  creep的工作状态在本模块维护 creep.memory.idle
+ *  资源占用状态在本模块维护 room.memory.sourcesStore
  * 
  */
 import { WORKER } from "../spawnCreep/SpawnWorker"
@@ -14,10 +14,10 @@ import * as WorkerCommon from "../common/WorkerCommon"
  */
 export function roomPolicy(room) {
     var creeps = room.find(FIND_MY_CREEPS, function (creep) { return creep.name.indexOf(WORKER) === 0 });
-    if (!room.memory["sourcesStory"]) {
+    if (!room.memory["sourcesStore"]) {
         initSource(room);
     }
-    var sourcesStory = room.memory["sourcesStory"];
+    var sourcesStore = room.memory["sourcesStore"];
     var sources = room.find(FIND_SOURCES_ACTIVE);
     var spawns = room.find(FIND_MY_SPAWNS);
     var controller = room.controller;
@@ -45,7 +45,7 @@ var commonPlicy = {
      * @param {Source} target 
      */
     gatherSource: function (creep, target) {
-        var store = creep.room.memory.sourcesStory;
+        var store = creep.room.memory.sourcesStore;
 
         if (creep.store.getFreeCapacity() === 0) {
             //不再采集了，释放该资源的采集空间
@@ -81,8 +81,25 @@ var commonPlicy = {
         }
 
     },
+    /**
+     * 
+     * @param {Creep} creep 
+     * @param {Structure} target 
+     */
+    transport:function(creep,target){
+        var free=target.store.getFreeCapacity(RESOURCE_ENERGY);
+        var used=creep.store.getUsedCapacity(RESOURCE_ENERGY); 
+    },
+    transportEnergy: function (creep, target) {
+        
+        if(free===null){
 
-    transport: function (creep, target) {
+        }
+        if(used===null){
+
+        }
+    },
+    transportMineral:function(){
 
     },
     upgradeController: function (creep, target) {
@@ -148,12 +165,12 @@ function getSpaceForTarget(target) {
  */
 function initSource(room) {
     var sources = root.find(FIND_SOURCES_ACTIVE);
-    var sourcesStory = {}
+    var sourcesStore = {}
     sources.forEach(function (source) {
-        sourcesStory[source.id] = {
+        sourcesStore[source.id] = {
             place: getSpaceForTarget(source),
             work: []
         }
     })
-    room.memory.sourcesStory = sourcesStory;
+    room.memory.sourcesStore = sourcesStore;
 }
