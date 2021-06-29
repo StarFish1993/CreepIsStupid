@@ -17,10 +17,15 @@ export var TaskMannage = {
             arg:arg
         }
     },
+    /**
+     * @todo 移除销毁某个任务
+     * @param {String}} id 
+     */
     destory: function (id) {
 
     },
     /**
+     * @todo 核心部分未完成
      * 统一为没有工作的creeps分配工作
      * @param {{role:Array<Creep>}} creeps
      */
@@ -32,10 +37,7 @@ export var TaskMannage = {
             if(amount>0){
                 var roles=task.roles;
                 roles.forEach(role => {
-                    var cs=creeps[role];
-                    ps[id]={
-
-                    }
+                    var cs=creeps[role];            
                 });
             }
         });
