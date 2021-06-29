@@ -1,4 +1,23 @@
 # 施工指南
-项目分为`Common,SpawnCreep,Policy`三个模块，common是creep的行动组，SpawnCreep用于存放不同类型的creep和creep的生成控制，Policy用来是控制creep的策略树。
-
-sceep根据其功能分为`worker，explorer，soldier`三种类型，三种类型分辨有不同的行动组，生成器和策略树。
+## 任务
+- 采集能量
+    - role：[gather,builder,worker]
+- 搬运资源
+    - role:[remover,builder,worker]
+- 建造建筑
+    - role:[builder,worker]
+- 升级controller
+    - role:[builder,worker]
+## role
+- worker
+    - [work,carry,move]
+    - 早期工作单位，可以进行所有工作,工作能力较低
+- builder
+    - [work,carry,carry,move]
+    - 建造建筑，升级controller，也可以进行采集和搬用工作
+- gather
+    - [work,work,move]
+    - 采集者，采集对应资源
+- remover
+    - [carry,carry,move,move]
+    - 搬运者
